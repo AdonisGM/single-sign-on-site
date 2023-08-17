@@ -4,16 +4,55 @@ import {
   createBrowserRouter,
   RouterProvider,
 } from "react-router-dom";
-import Login from "./components/login/Login.jsx";
 import CookieImage from "./assets/cookie-svgrepo-com.svg";
 import {Button, Card, Image} from "@nextui-org/react";
 import {Fragment, useEffect} from "react";
+import {Toaster} from "react-hot-toast";
+
+import Signup from "./components/signup/Signup.jsx";
+import Login from "./components/login/Login.jsx";
+import Information from "./components/menuLayout/menuItems/information/Information.jsx";
+import MenuLayout from "./components/menuLayout/MenuLayout.jsx";
+import Apps from "./components/menuLayout/menuItems/apps/Apps.jsx";
+import Setting from "./components/menuLayout/menuItems/setting/Setting.jsx";
+import Welcome from "./components/welcome/Welcome.jsx";
+import Auth from "./components/auth/Auth.jsx";
 
 const router = createBrowserRouter([
   {
-    path: "/",
+    path: "/login",
     element: <Login />,
   },
+  {
+    path: "/sign-up",
+    element: <Signup />,
+  },
+  {
+    path: "/",
+    element: <Auth><MenuLayout /></Auth>,
+    children: [
+      {
+        path: "/",
+        element: <Welcome />,
+      },
+      {
+        path: "/me",
+        element: <Information />,
+      },
+      {
+        path: "/apps",
+        element: <Apps/>,
+      },
+      {
+        path: "/settings",
+        element: <Setting/>
+      }
+    ]
+  },
+  {
+    path: "*",
+    element: <p>404</p>,
+  }
 ]);
 
 function App() {
@@ -28,6 +67,11 @@ function App() {
   return (
     <div>
       <RouterProvider router={router}/>
+      <Toaster
+        toastOptions={{
+          className: 'bg-default-900 text-white text-sm',
+        }}
+      />
       <motion.div
         className={'flex justify-center items-center fixed bottom-0 w-full'}
         initial={{opacity: 0, y: 100, scale: 0}}

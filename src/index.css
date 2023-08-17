@@ -1,3 +1,10 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@font-face {
+    font-family: 'Supfun';
+    src: url('./fonts/Supfun.otf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
