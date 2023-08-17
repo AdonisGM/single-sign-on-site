@@ -51,14 +51,14 @@ const MenuLayout = () => {
   return (
     <motion.div
       className={'h-screen flex justify-center items-center flex-col gap-5 bg-default-200'}
-      initial={{opacity: 0, scale: 0.9}}
-      animate={{opacity: 1, scale: 1}}
+      initial={{opacity: 0}}
+      animate={{opacity: 1}}
       transition={{duration: 0.3}}
     >
-      <Card className="w-[800px] h-[500px] max-w-[800px] max-h-[500px]">
+      <Card className="w-[900px] h-[570px] max-w-[900px] max-h-[570px]">
         <div className={'flex flex-row gap-1 h-full'}>
           <div className={'w-1/12'}>
-            <div className={'h-full bg-default-700 flex flex-col items-center p-2 gap-2'}>
+            <div className={'h-full bg-default-700 flex flex-col items-center p-4 gap-4'}>
               {listMenu.map((item, index) => (
                 <MotionComponentLink
                   key={index}

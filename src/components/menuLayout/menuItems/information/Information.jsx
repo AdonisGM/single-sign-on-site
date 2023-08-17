@@ -8,7 +8,7 @@ const Information = () => {
           Profile
         </p>
         <p className={'text-default-400 text-sm'}>
-          Manage your profile information and set your avatar. (❁´◡`❁)
+          Manage your profile information and set your avatar. <span className={'text-pink-500 font-bold'}>(❁´◡`❁)</span>
         </p>
       </div>
       <div className={'p-2'}>

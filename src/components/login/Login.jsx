@@ -1,6 +1,6 @@
 import {Card, CardHeader, Divider, CardBody, CardFooter, Link, Input, Spacer, Button} from "@nextui-org/react";
 import {IconUser, IconLock} from "@tabler/icons-react";
-import {Link as RouterLink, useSearchParams, useLocation} from "react-router-dom";
+import {Link as RouterLink, useSearchParams, useLocation, useNavigate} from "react-router-dom";
 import {useEffect, useState} from "react";
 import {motion, useAnimate} from "framer-motion";
 import toast from "react-hot-toast";
@@ -11,6 +11,7 @@ const Login = () => {
   const [searchParams] = useSearchParams();
   const [sourceReferrer, setSourceReferrer] = useState({});
   const location = useLocation();
+  const navigate = useNavigate();
 
   useEffect(() => {
     // get information param about source of the request
@@ -111,6 +112,10 @@ const Login = () => {
                 className={'bg-default-900 text-white'}
                 onPress={() => {
                   setIsShowPasswordInput(true);
+
+                  if (isShowPasswordInput) {
+                    navigate('/');
+                  }
                 }}
               >
                 {isShowPasswordInput ? 'Login with SSO' : 'Continue'}

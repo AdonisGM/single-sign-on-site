@@ -9,7 +9,7 @@ const Setting = () => {
           Settings
         </p>
         <p className={'text-default-400 text-sm'}>
-          Manage your account settings and set email preferences. (๑•̀ㅂ•́)و✧
+          Manage your account settings and set email preferences. <span className={'text-pink-500 font-bold'}>(๑•̀ㅂ•́)و✧</span>
         </p>
       </div>
       <div className={'p-2'}>
