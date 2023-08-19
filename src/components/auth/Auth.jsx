@@ -1,20 +1,29 @@
-import {useNavigate} from "react-router-dom";
-import {useEffect} from "react";
+import {useNavigate,useLocation} from "react-router-dom";
+import {Fragment, useEffect} from "react";
 import Cookie from "js-cookie";
 
 const Auth = ({children}) => {
   const navigate = useNavigate();
+  const location = useLocation();
 
   useEffect(() => {
     // check token in cookies
     const token = Cookie.get('token');
-    console.log(token)
-  }, [navigate]);
+    const refreshToken = Cookie.get('refreshToken');
+
+    if (token === undefined || refreshToken === undefined) {
+      Cookie.remove('token');
+      Cookie.remove('refreshToken');
+      navigate('/login');
+    }
+
+    document.title = 'Account | AdonisGM';
+  }, [navigate, location]);
 
   return (
-    <div>
+    <Fragment>
       {children}
-    </div>
+    </Fragment>
   )
 }
 

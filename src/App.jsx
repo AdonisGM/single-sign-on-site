@@ -17,15 +17,16 @@ import Apps from "./components/menuLayout/menuItems/apps/Apps.jsx";
 import Setting from "./components/menuLayout/menuItems/setting/Setting.jsx";
 import Welcome from "./components/welcome/Welcome.jsx";
 import Auth from "./components/auth/Auth.jsx";
+import NonAuth from "./components/auth/NonAuth.jsx";
 
 const router = createBrowserRouter([
   {
     path: "/login",
-    element: <Login />,
+    element: <NonAuth><Login /></NonAuth>,
   },
   {
     path: "/sign-up",
-    element: <Signup />,
+    element: <NonAuth><Signup /></NonAuth>,
   },
   {
     path: "/",

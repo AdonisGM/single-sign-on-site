@@ -1,7 +1,11 @@
 import {Fragment} from "react";
 import {Button} from "@nextui-org/react";
+import Cookies from "js-cookie";
+import {useNavigate} from "react-router-dom";
 
 const Setting = () => {
+  const navigate = useNavigate();
+
   return (
     <Fragment>
       <div className={'p-2 sticky top-0 bg-default-100 border-b border-default-200'}>
@@ -16,6 +20,13 @@ const Setting = () => {
         <Button
           color={'danger'}
           size={'sm'}
+          onPress={
+            () => {
+              Cookies.remove('token');
+              Cookies.remove('refreshToken');
+              navigate('/login');
+            }
+          }
         >
           Logout
         </Button>

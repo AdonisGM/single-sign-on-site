@@ -4,14 +4,17 @@ import {Link as RouterLink, useSearchParams, useLocation, useNavigate} from "rea
 import {useEffect, useState} from "react";
 import {motion, useAnimate} from "framer-motion";
 import toast from "react-hot-toast";
+import {useForm} from 'react-hook-form'
+import AuthApi from "../../apis/AuthApi";
 
 const Login = () => {
   const [isShowPasswordInput, setIsShowPasswordInput] = useState(false);
   const [scope, animate] = useAnimate();
   const [searchParams] = useSearchParams();
-  const [sourceReferrer, setSourceReferrer] = useState({});
+  const [, setSourceReferrer] = useState({});
   const location = useLocation();
   const navigate = useNavigate();
+  const {register, handleSubmit, formState: {errors}} = useForm();
 
   useEffect(() => {
     // get information param about source of the request
@@ -30,6 +33,18 @@ const Login = () => {
       animate(scope.current, {opacity: 0, scale: 0, height: 0});
     }
   }, [animate, isShowPasswordInput, scope]);
+
+  const handleLogin = (data) => {
+    console.log(data)
+
+    // AuthApi.login(data)
+    //   .then(response => {
+    //     console.log(response)
+    //   })
+    //   .catch(error => {
+    //     console.log(error)
+    //   })
+  }
 
   const handleForgotPassword = (e) => {
     e.preventDefault();
@@ -53,7 +68,8 @@ const Login = () => {
         <CardBody
           className={'overflow-x-hidden overflow-y-hidden'}
         >
-          <div
+          <form
+            onSubmit={handleSubmit(handleLogin)}
             className={'p-2 flex flex-col justify-center items-center'}
           >
             <p className={'text-default-400 text-sm italic'}>
@@ -61,6 +77,8 @@ const Login = () => {
             </p>
             <Spacer y={5} />
             <Input
+              type={'text'}
+              {...register('username', {required: true})}
               className={'w-full'}
               placeholder={'Enter your email or username'}
               size={'md'}
@@ -80,6 +98,7 @@ const Login = () => {
             >
               <Input
                 type={'password'}
+                {...register('password', {required: true})}
                 className={'w-full'}
                 placeholder={'Enter your password'}
                 size={'md'}
@@ -110,6 +129,8 @@ const Login = () => {
               <Button
                 size="sm"
                 className={'bg-default-900 text-white'}
+                type={'submit'}
+
                 onPress={() => {
                   setIsShowPasswordInput(true);
 
@@ -121,7 +142,7 @@ const Login = () => {
                 {isShowPasswordInput ? 'Login with SSO' : 'Continue'}
               </Button>
             </div>
-          </div>
+          </form>
         </CardBody>
         <Divider />
         <CardFooter>
