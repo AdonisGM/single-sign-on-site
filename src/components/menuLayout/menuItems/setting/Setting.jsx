@@ -22,8 +22,8 @@ const Setting = () => {
           size={'sm'}
           onPress={
             () => {
-              Cookies.remove('token');
-              Cookies.remove('refreshToken');
+              Cookies.remove('access_token');
+              Cookies.remove('refresh_token');
               navigate('/login');
             }
           }

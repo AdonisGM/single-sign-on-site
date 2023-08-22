@@ -8,8 +8,8 @@ const NonAuth = ({children}) => {
 
   useEffect(() => {
     // check token in cookies
-    const token = Cookie.get('token');
-    const refreshToken = Cookie.get('refreshToken');
+    const token = Cookie.get('access_token');
+    const refreshToken = Cookie.get('refresh_token');
 
     if (token !== undefined && refreshToken !== undefined) {
       navigate('/');

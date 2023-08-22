@@ -8,12 +8,12 @@ const Auth = ({children}) => {
 
   useEffect(() => {
     // check token in cookies
-    const token = Cookie.get('token');
-    const refreshToken = Cookie.get('refreshToken');
+    const token = Cookie.get('access_token');
+    const refreshToken = Cookie.get('refresh_token');
 
     if (token === undefined || refreshToken === undefined) {
-      Cookie.remove('token');
-      Cookie.remove('refreshToken');
+      Cookie.remove('access_token');
+      Cookie.remove('refresh_token');
       navigate('/login');
     }
 

@@ -35,15 +35,17 @@ const Login = () => {
   }, [animate, isShowPasswordInput, scope]);
 
   const handleLogin = (data) => {
-    console.log(data)
+    if (!isShowPasswordInput) {
+      setIsShowPasswordInput(true);
+      return;
+    }
 
-    // AuthApi.login(data)
-    //   .then(response => {
-    //     console.log(response)
-    //   })
-    //   .catch(error => {
-    //     console.log(error)
-    //   })
+    AuthApi('login', data, (response) => {
+      toast.success('Login successfully!');
+      navigate('/');
+    }, (error) => {
+      toast.error('Login failed!');
+    });
   }
 
   const handleForgotPassword = (e) => {
@@ -130,14 +132,6 @@ const Login = () => {
                 size="sm"
                 className={'bg-default-900 text-white'}
                 type={'submit'}
-
-                onPress={() => {
-                  setIsShowPasswordInput(true);
-
-                  if (isShowPasswordInput) {
-                    navigate('/');
-                  }
-                }}
               >
                 {isShowPasswordInput ? 'Login with SSO' : 'Continue'}
               </Button>

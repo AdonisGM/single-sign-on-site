@@ -1,33 +1,38 @@
 import Cookie from "js-cookie";
 
-const GatewayApi = async (bodyObject = null) => {
-  const endpoint = 'http://localhost:3000/account';
+// const ENDPOINT = 'http://localhost:5000';
+const ENDPOINT = 'https://api.nmtung.dev';
 
+const GatewayApi = async (cmd, dataObj) => {
   // add no-cors
   let options = {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
     },
-    body: JSON.stringify(bodyObject),
+    body: JSON.stringify({
+      cmd: cmd,
+      data: dataObj,
+    }),
+    credentials: 'include',
   };
 
-  let response = await fetch(`${endpoint}/gateway`, options);
+  let response = await fetch(`${ENDPOINT}/gateway`, options);
 
   if (response.status === 401) {
-    const dataRefresh = await refreshToken();
-    if (dataRefresh) {
-      Cookie.set('token', dataRefresh.data.access_token);
-      Cookie.set('refreshToken', dataRefresh.data.refresh_token);
-    }
+    await refreshToken();
     let optionsR = {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify(bodyObject),
+      body: JSON.stringify({
+        cmd: cmd,
+        data: dataObj,
+      }),
+      credentials: 'include',
     };
-    response = await fetch(`${endpoint}`, optionsR);
+    response = await fetch(`${ENDPOINT}/gateway`, optionsR);
   }
 
   if (response.status >= 500) {
@@ -44,11 +49,9 @@ const GatewayApi = async (bodyObject = null) => {
 };
 
 const refreshToken = async () => {
-  const endpoint = 'http://localhost:3000/account/auth';
-
-  if (!localStorage.getItem('refresh_token')) {
-    Cookie.remove('token');
-    Cookie.remove('refreshToken');
+  if (!Cookie.get('refresh_token')) {
+    Cookie.remove('access_token');
+    Cookie.remove('refresh_token');
     window.location.href = '/';
     return null;
   }
@@ -58,19 +61,20 @@ const refreshToken = async () => {
       'Content-Type': 'application/json',
     },
     body: JSON.stringify({
-      refresh_token: Cookie.get('refreshToken'),
+      refresh_token: Cookie.get('refresh_token'),
     }),
     method: 'POST',
+    credentials: 'include',
   };
 
   const responseRefresh = await fetch(
-    `${endpoint}/renew-token`,
+    `${ENDPOINT}/account/refresh-token`,
     optionsRefresh
   );
 
   if (!responseRefresh.ok) {
-    Cookie.remove('token');
-    Cookie.remove('refreshToken');
+    Cookie.remove('access_token');
+    Cookie.remove('refresh_token');
     window.location.href = '/';
     return null;
   }
