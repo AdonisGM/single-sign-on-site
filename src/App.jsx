@@ -72,6 +72,7 @@ function App() {
         toastOptions={{
           className: 'bg-default-900 text-white text-sm',
         }}
+        position="top-right"
       />
       <motion.div
         className={'flex justify-center items-center fixed bottom-0 w-full'}

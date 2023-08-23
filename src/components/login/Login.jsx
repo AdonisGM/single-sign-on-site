@@ -35,8 +35,17 @@ const Login = () => {
   }, [animate, isShowPasswordInput, scope]);
 
   const handleLogin = (data) => {
+    console.log(data)
+
     if (!isShowPasswordInput) {
       setIsShowPasswordInput(true);
+      return;
+    }
+
+    if (data.password.trim() === '') {
+      toast.error('Oh no! You forgot to enter your password.', {
+        icon: '🤪?',
+      });
       return;
     }
 
@@ -71,8 +80,10 @@ const Login = () => {
           className={'overflow-x-hidden overflow-y-hidden'}
         >
           <form
-            onSubmit={handleSubmit(handleLogin)}
+            onSubmit={handleSubmit(handleLogin, (e) => {
+              console.log(e)})}
             className={'p-2 flex flex-col justify-center items-center'}
+            id={'login-form'}
           >
             <p className={'text-default-400 text-sm italic'}>
               You only need to sign in once to access all of your applications. Once you sign in, you can easily switch between applications without being asked to sign in again.
@@ -80,6 +91,7 @@ const Login = () => {
             <Spacer y={5} />
             <Input
               type={'text'}
+              name={'username'}
               {...register('username', {required: true})}
               className={'w-full'}
               placeholder={'Enter your email or username'}
@@ -100,7 +112,8 @@ const Login = () => {
             >
               <Input
                 type={'password'}
-                {...register('password', {required: true})}
+                name={'password'}
+                {...register('password', {required: false})}
                 className={'w-full'}
                 placeholder={'Enter your password'}
                 size={'md'}
@@ -131,7 +144,9 @@ const Login = () => {
               <Button
                 size="sm"
                 className={'bg-default-900 text-white'}
+                form={'login-form'}
                 type={'submit'}
+
               >
                 {isShowPasswordInput ? 'Login with SSO' : 'Continue'}
               </Button>
