@@ -6,6 +6,16 @@ import {useNavigate} from "react-router-dom";
 const Setting = () => {
   const navigate = useNavigate();
 
+  const handleLogout = () => {
+    console.log('logout')
+    console.log(Cookies.get('access_token'))
+    console.log(Cookies.get('refresh_token'))
+
+    Cookies.remove('access_token');
+    Cookies.remove('refresh_token');
+    navigate('/login');
+  }
+
   return (
     <Fragment>
       <div className={'p-2 sticky top-0 bg-default-100 border-b border-default-200'}>
@@ -20,13 +30,7 @@ const Setting = () => {
         <Button
           color={'danger'}
           size={'sm'}
-          onPress={
-            () => {
-              Cookies.remove('access_token');
-              Cookies.remove('refresh_token');
-              navigate('/login');
-            }
-          }
+          onPress={handleLogout}
         >
           Logout
         </Button>
