@@ -50,8 +50,14 @@ const Login = () => {
     }
 
     AuthApi('login', data, (response) => {
+      const redirect_uri = searchParams.get('redirect_uri');
+
       toast.success('Login successfully!');
-      navigate('/');
+      if (redirect_uri) {
+        window.location.href = redirect_uri;
+      } else {
+        navigate('/');
+      }
     }, (error) => {
       toast.error('Login failed!');
     });
