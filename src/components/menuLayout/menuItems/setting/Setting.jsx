@@ -7,8 +7,8 @@ const Setting = () => {
   const navigate = useNavigate();
 
   const handleLogout = () => {
-    Cookies.remove('access_token', {path: '/'});
-    Cookies.remove('refresh_token', {path: '/'});
+    Cookies.remove('access_token', {path: '/', domain: localStorage.getItem('isLocalhost') ? 'localhost' : '.nmtung.dev'});
+    Cookies.remove('refresh_token', {path: '/', domain: localStorage.getItem('isLocalhost') ? 'localhost' : '.nmtung.dev'});
     navigate('/login');
   }
 

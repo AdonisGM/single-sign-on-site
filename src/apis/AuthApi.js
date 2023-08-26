@@ -4,8 +4,7 @@ const listApi = {
   refreshToken: '/account/renew-token',
 }
 
-// const ENDPOINT = 'http://localhost:5000';
-const ENDPOINT = 'https://api.nmtung.dev';
+const ENDPOINT = localStorage.getItem('isLocalhost') ? 'http://localhost:5000' : 'https://api.nmtung.dev';
 
 const AuthApi = (type, data, callback, error) => {
   const endpoint = ENDPOINT;

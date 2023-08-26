@@ -1,7 +1,7 @@
 import Cookie from "js-cookie";
+import Cookies from "js-cookie";
 
-// const ENDPOINT = 'http://localhost:5000';
-const ENDPOINT = 'https://api.nmtung.dev';
+const ENDPOINT = localStorage.getItem('isLocalhost') ? 'http://localhost:5000' : 'https://api.nmtung.dev';
 
 const GatewayApi = async (cmd, dataObj) => {
   // add no-cors
@@ -50,8 +50,8 @@ const GatewayApi = async (cmd, dataObj) => {
 
 const refreshToken = async () => {
   if (!Cookie.get('refresh_token')) {
-    Cookie.remove('access_token');
-    Cookie.remove('refresh_token');
+    Cookies.remove('access_token', {path: '/', domain: localStorage.getItem('isLocalhost') ? 'localhost' : '.nmtung.dev'});
+    Cookies.remove('refresh_token', {path: '/', domain: localStorage.getItem('isLocalhost') ? 'localhost' : '.nmtung.dev'});
     window.location.href = '/';
     return null;
   }
@@ -73,8 +73,8 @@ const refreshToken = async () => {
   );
 
   if (!responseRefresh.ok) {
-    Cookie.remove('access_token');
-    Cookie.remove('refresh_token');
+    Cookies.remove('access_token', {path: '/', domain: localStorage.getItem('isLocalhost') ? 'localhost' : '.nmtung.dev'});
+    Cookies.remove('refresh_token', {path: '/', domain: localStorage.getItem('isLocalhost') ? 'localhost' : '.nmtung.dev'});
     window.location.href = '/';
     return null;
   }
