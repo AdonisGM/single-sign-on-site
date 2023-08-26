@@ -7,12 +7,8 @@ const Setting = () => {
   const navigate = useNavigate();
 
   const handleLogout = () => {
-    console.log('logout')
-    console.log(Cookies.get('access_token'))
-    console.log(Cookies.get('refresh_token'))
-
-    Cookies.remove('access_token');
-    Cookies.remove('refresh_token');
+    Cookies.remove('access_token', {path: '/'});
+    Cookies.remove('refresh_token', {path: '/'});
     navigate('/login');
   }
 
