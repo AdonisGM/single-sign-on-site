@@ -34,8 +34,8 @@ const Apps = () => {
 
     animate(
       scope.current,
-      {opacity: 1, scale: 1, backgroundColor: '#fff'},
-      {duration: 0.5, onComplete: () => {
+      {opacity: 1, scale: 1, backgroundColor: '#fff', borderRadius: '0%'},
+      {duration: 0.4, onComplete: () => {
           window.location.href = `https://${selectedApp.link}`;
         }
       }
@@ -88,7 +88,7 @@ const Apps = () => {
       <motion.div
         ref={scope}
         className={'bg-white fixed flex items-center justify-center top-0 left-0 w-screen h-screen z-auto'}
-        initial={{opacity: 0, scale: 0}}
+        initial={{opacity: 0.6, scale: 0, borderRadius: '50%'}}
       >
 
       </motion.div>
