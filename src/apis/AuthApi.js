@@ -4,7 +4,7 @@ const listApi = {
   refreshToken: '/account/renew-token',
 }
 
-const ENDPOINT = localStorage.getItem('isLocalhost') ? 'http://localhost:5000' : 'https://api.nmtung.dev';
+const ENDPOINT = import.meta.env.VITE_API_URL;
 
 const AuthApi = (type, data, callback, error) => {
   const endpoint = ENDPOINT;
