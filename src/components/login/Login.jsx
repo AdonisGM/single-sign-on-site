@@ -35,8 +35,6 @@ const Login = () => {
   }, [animate, isShowPasswordInput, scope]);
 
   const handleLogin = (data) => {
-    console.log(data)
-
     if (!isShowPasswordInput) {
       setIsShowPasswordInput(true);
       return;

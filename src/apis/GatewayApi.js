@@ -1,5 +1,4 @@
 import Cookie from "js-cookie";
-import Cookies from "js-cookie";
 
 const ENDPOINT = import.meta.env.VITE_API_URL;
 
@@ -49,13 +48,6 @@ const GatewayApi = async (cmd, dataObj) => {
 };
 
 const refreshToken = async () => {
-  if (!Cookie.get('refresh_token')) {
-    Cookies.remove('access_token', {path: '/', domain: import.meta.env.VITE_DOMAIN_COOKIE});
-    Cookies.remove('refresh_token', {path: '/', domain: import.meta.env.VITE_DOMAIN_COOKIE});
-    window.location.href = '/';
-    return null;
-  }
-
   const optionsRefresh = {
     headers: {
       'Content-Type': 'application/json',
@@ -73,8 +65,7 @@ const refreshToken = async () => {
   );
 
   if (!responseRefresh.ok) {
-    Cookies.remove('access_token', {path: '/', domain: import.meta.env.VITE_DOMAIN_COOKIE});
-    Cookies.remove('refresh_token', {path: '/', domain: import.meta.env.VITE_DOMAIN_COOKIE});
+    Cookie.remove('info', {path: '/', domain: import.meta.env.VITE_DOMAIN_COOKIE});
     window.location.href = '/';
     return null;
   }
