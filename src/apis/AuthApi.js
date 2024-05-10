@@ -1,6 +1,7 @@
 const listApi = {
   login: '/account/login',
   signUp: '/account/sign-up',
+  logout: '/account/logout',
   refreshToken: '/account/renew-token',
 }
 

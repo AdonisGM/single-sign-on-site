@@ -2,7 +2,7 @@ import {Fragment} from "react";
 import {Button} from "@nextui-org/react";
 import Cookies from "js-cookie";
 import {useNavigate} from "react-router-dom";
-import GatewayApi from "../../../../apis/GatewayApi.js";
+import AuthApi from "../../../../apis/AuthApi.js";
 
 const Setting = () => {
   const navigate = useNavigate();
@@ -10,11 +10,7 @@ const Setting = () => {
   const handleLogout = () => {
     Cookies.remove('info', {path: '/', domain: import.meta.env.VITE_DOMAIN_COOKIE});
 
-    GatewayApi('pkg_user.delete_refresh_token', {})
-      .then()
-      .catch(err => {
-        console.log(err);
-      })
+    AuthApi('logout', {}, () => {}, () => {});
 
     navigate('/login');
   }
