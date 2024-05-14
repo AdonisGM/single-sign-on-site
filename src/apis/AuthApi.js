@@ -1,3 +1,5 @@
+import ErrorToast from "../components/layout/ErrorToast.jsx";
+
 const listApi = {
   login: '/account/login',
   signUp: '/account/sign-up',
@@ -5,6 +7,7 @@ const listApi = {
   refreshToken: '/account/renew-token',
 }
 
+import toast from "react-hot-toast";
 const ENDPOINT = import.meta.env.VITE_API_URL;
 
 const AuthApi = (type, data, callback, error) => {
@@ -24,10 +27,27 @@ const AuthApi = (type, data, callback, error) => {
     }
     return response.json();
   }).then((data) => {
-    callback(data);
+    if (data.error_message) {
+      showToastError(data.error_message)
+    } else {
+      callback(data);
+    }
   }).catch((er) => {
     error(er);
   });
+}
+
+const showToastError = (errorMessage) => {
+  if (!errorMessage.includes(']:::[')) {
+    toast.error(errorMessage);
+  } else {
+    const arrError = errorMessage.split(':::');
+    const errorObj = {
+      code: arrError[0].substring(1, arrError[0].length - 1),
+      message: arrError[2].substring(1, arrError[2].length - 1)
+    }
+    toast.error(ErrorToast(errorObj));
+  }
 }
 
 export default AuthApi;

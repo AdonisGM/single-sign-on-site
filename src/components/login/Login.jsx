@@ -6,40 +6,22 @@ import {motion, useAnimate} from "framer-motion";
 import toast from "react-hot-toast";
 import {useForm} from 'react-hook-form'
 import AuthApi from "../../apis/AuthApi";
+import InputText from "../customInput/InputText.jsx";
+import InputPassword from "../customInput/InputPassword.jsx";
 
 const Login = () => {
   const [isShowPasswordInput, setIsShowPasswordInput] = useState(false);
-  const [scope, animate] = useAnimate();
   const [searchParams] = useSearchParams();
-  const [, setSourceReferrer] = useState({});
-  const location = useLocation();
   const navigate = useNavigate();
-  const {register, handleSubmit, formState: {errors}} = useForm();
 
-  useEffect(() => {
-    // get information param about source of the request
-    const source = searchParams.get('source');
-    setSourceReferrer(sourceReferrer => ({...sourceReferrer, source}));
-
-    // get email from router dom
-    const email = location.state?.email ? location.state.email : '';
-    console.log(email)
-  }, []);
-
-  useEffect(() => {
-    if (isShowPasswordInput) {
-      animate(scope.current, {opacity: 1, scale: 1, height: 'auto'});
-    } else {
-      animate(scope.current, {opacity: 0, scale: 0, height: 0});
+  const { control, handleSubmit, reset, setValue } = useForm({
+    defaultValues: {
+      username: '',
+      password: '',
     }
-  }, [animate, isShowPasswordInput, scope]);
+  })
 
   const handleLogin = (data) => {
-    if (!isShowPasswordInput) {
-      setIsShowPasswordInput(true);
-      return;
-    }
-
     if (data.password.trim() === '') {
       toast.error('Oh no! You forgot to enter your password.', {
         icon: '🤪?',
@@ -47,7 +29,7 @@ const Login = () => {
       return;
     }
 
-    AuthApi('login', data, (response) => {
+    AuthApi('login', data, () => {
       const redirect_uri = searchParams.get('redirect_uri');
 
       toast.success('Login successfully!');
@@ -56,7 +38,7 @@ const Login = () => {
       } else {
         navigate('/');
       }
-    }, (error) => {
+    }, () => {
       toast.error('Login failed!');
     });
   }
@@ -84,53 +66,24 @@ const Login = () => {
           className={'overflow-x-hidden overflow-y-hidden'}
         >
           <form
-            onSubmit={handleSubmit(handleLogin, (e) => {
-              console.log(e)})}
+            onSubmit={handleSubmit(handleLogin)}
             className={'p-2 flex flex-col justify-center items-center'}
-            id={'login-form'}
           >
             <p className={'text-default-400 text-sm italic'}>
               You only need to sign in once to access all of your applications. Once you sign in, you can easily switch between applications without being asked to sign in again.
             </p>
             <Spacer y={5} />
-            <Input
-              type={'text'}
+            <InputText
               name={'username'}
-              {...register('username', {required: true})}
-              className={'w-full'}
-              placeholder={'Enter your email or username'}
-              size={'md'}
-              startContent={
-                <IconUser
-                  size={20}
-                  stroke={2.5}
-                  color={'#484848'}
-                />
-              }
+              label={'Username'}
+              control={control}
             />
             <Spacer y={2} />
-            <motion.div
-              ref={scope}
-              initial={{opacity: 0, scale: 0, height: 0}}
-              className={'w-full'}
-            >
-              <Input
-                type={'password'}
-                name={'password'}
-                {...register('password', {required: false})}
-                className={'w-full'}
-                placeholder={'Enter your password'}
-                size={'md'}
-                startContent={
-                  <IconLock
-                    size={20}
-                    stroke={2.5}
-                    color={'#484848'}
-                  />
-                }
-              />
-            </motion.div>
-            {/*forgot password*/}
+            <InputPassword
+              name={'password'}
+              label={'Password'}
+              control={control}
+            />
             <div
               className={'flex justify-end items-center w-full mt-2'}
             >
@@ -143,16 +96,13 @@ const Login = () => {
                 Forgot password?
               </RouterLink>
             </div>
-            {/*login button*/}
             <div className={'flex justify-center items-center mt-5'}>
               <Button
                 size="sm"
                 className={'bg-default-900 text-white'}
-                form={'login-form'}
                 type={'submit'}
-
               >
-                {isShowPasswordInput ? 'Login with SSO' : 'Continue'}
+                Login with SSO
               </Button>
             </div>
           </form>
