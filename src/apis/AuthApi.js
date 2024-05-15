@@ -29,6 +29,7 @@ const AuthApi = (type, data, callback, error) => {
   }).then((data) => {
     if (data.error_message) {
       showToastError(data.error_message)
+      throw ErrorToast(data.error_message)
     } else {
       callback(data);
     }

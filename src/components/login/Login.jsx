@@ -10,8 +10,8 @@ import InputText from "../customInput/InputText.jsx";
 import InputPassword from "../customInput/InputPassword.jsx";
 
 const Login = () => {
-  const [isShowPasswordInput, setIsShowPasswordInput] = useState(false);
   const [searchParams] = useSearchParams();
+  const [isLoading, setIsLoading] = useState(false)
   const navigate = useNavigate();
 
   const { control, handleSubmit, reset, setValue } = useForm({
@@ -29,10 +29,10 @@ const Login = () => {
       return;
     }
 
+    setIsLoading(true)
     AuthApi('login', data, () => {
       const redirect_uri = searchParams.get('redirect_uri');
 
-      toast.success('Login successfully!');
       if (redirect_uri) {
         window.location.href = redirect_uri;
       } else {
@@ -40,6 +40,7 @@ const Login = () => {
       }
     }, () => {
       toast.error('Login failed!');
+      setIsLoading(false)
     });
   }
 
@@ -101,6 +102,7 @@ const Login = () => {
                 size="sm"
                 className={'bg-default-900 text-white'}
                 type={'submit'}
+                isLoading={isLoading}
               >
                 Login with SSO
               </Button>
