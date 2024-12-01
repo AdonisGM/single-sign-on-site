@@ -4,10 +4,10 @@ import {IconBrain, IconCoinBitcoin, IconNotebook} from "@tabler/icons-react";
 
 const listApps = [
   {
-    name: 'Memorito',
-    description: 'Want to memorize something? Memorito is the answer!',
+    name: 'Gomoku',
+    description: 'Challenge your friends and family to an intellectual game. We hope you have a blast!',
     icon: <IconBrain color={'white'}/>,
-    link: 'memorito.nmtung.dev'
+    link: 'gomoku.nmtung.dev'
   },
   {
     name: 'Diary',
